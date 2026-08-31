@@ -9,8 +9,9 @@ export class CatalogService {
 
   // Fresh client per call: correlationId lives in AsyncLocalStorage and
   // changes per request. authHeaders forwards the caller's own credential —
-  // catalog-service independently verifies the Cognito JWT (global guard),
-  // so a request arriving without it would 401 in a real deployment.
+  // catalog-service's Envoy PEP sidecar verifies the Cognito JWT signature
+  // (the app guard only extracts identity), so a request arriving without
+  // it would be denied in a real deployment.
   private client(authHeaders: Record<string, string>) {
     return createFetchClient({
       baseUrl: this.config.get<string>('catalogServiceUrl')!,

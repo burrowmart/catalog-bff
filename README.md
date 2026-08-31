@@ -8,8 +8,9 @@
 - `GET /catalog` forwards every query param it received (page, limit, and any
   search/filter params) verbatim to `catalog-service`'s list endpoint and
   reshapes nothing.
-- Forwards the caller's own Cognito credential downstream — catalog-service
-  independently verifies the JWT on every route (global guard).
+- Forwards the caller's own Cognito credential downstream — catalog-service's
+  Envoy PEP verifies the JWT on every route (the app guard only extracts
+  identity).
 
 ### Request flow
 
